@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from datetime import datetime
 from app.config.database import user_collection, account_collection, transaction_collection
+from app.routes.user_routes import router as user_router
 app=FastAPI(title="Simple Banking Application", version="1.0.0")
+
 
 # user = {
 #     "name": "johndoe",
@@ -27,7 +29,7 @@ app=FastAPI(title="Simple Banking Application", version="1.0.0")
 #     "created_at": datetime.now()
 # }
 # transaction_collection.insert_one(transaction)
-
+app.include_router(user_router, prefix="/users", tags=["users"])
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}

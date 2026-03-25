@@ -1,12 +1,16 @@
-# models/user.py
 from app.config.database import db
 from datetime import datetime
 
-def create_user(username, password):
+def create_user(name, email):
     user = {
-        "username": username,
-        "password": password,
+        "name": name,
+        "email": email,
+        "created_at": datetime.now().isoformat()
     }
     result = db.users.insert_one(user)
-    user["_id"] = result.inserted_id
-    return user
+    return {
+        "user_id": str(result.inserted_id),
+        "name": user["name"],
+        "email": user["email"],
+        "created_at": user["created_at"]
+    }   
